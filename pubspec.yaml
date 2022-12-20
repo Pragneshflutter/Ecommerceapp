@@ -42,6 +42,7 @@ dependencies:
   lottie:
   image_picker:
   shared_preferences:
+  sqflite:
 
 
 dev_dependencies:
