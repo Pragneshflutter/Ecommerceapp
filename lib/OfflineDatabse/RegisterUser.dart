@@ -2,7 +2,7 @@ import 'package:apicalling/Loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../Databaseclass.dart';
+import 'Databaseclass.dart';
 import 'Loginpagee.dart';
 
 class RegisterUser extends StatefulWidget {
