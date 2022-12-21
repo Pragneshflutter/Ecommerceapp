@@ -1,7 +1,9 @@
+import 'package:apicalling/Loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'Databaseclass.dart';
+import '../Databaseclass.dart';
+import 'Loginpagee.dart';
 
 class RegisterUser extends StatefulWidget {
   const RegisterUser({Key? key}) : super(key: key);
@@ -16,9 +18,9 @@ class _RegisterUserState extends State<RegisterUser> {
   TextEditingController number = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  Database?  db ;
+  Database? db;
 
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -26,15 +28,13 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   void ForDatabase() {
-
     Databaseclass().GetDatabase().then((value) {
       setState(() {
         db = value;
       });
-
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,19 +63,21 @@ class _RegisterUserState extends State<RegisterUser> {
               decoration: InputDecoration(hintText: "Enetr Your Name"),
               controller: email,
             )),
-        ElevatedButton(onPressed: () {
-
-
-
-          Databaseclass().InsertuserData(name.text,number.text,password.text,email.text,db!);
-
-
-
-
-        }, child: Text("Register Data"))
+        ElevatedButton(
+            onPressed: () {
+              Databaseclass()
+                  .InsertuserData(
+                      name.text, number.text, password.text, email.text, db!)
+                  .then((value) {
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                  builder: (context) {
+                    return Loginpagee();
+                  },
+                ));
+              });
+            },
+            child: Text("Register Data"))
       ]),
     );
   }
-
-
 }

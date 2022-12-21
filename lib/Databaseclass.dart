@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -24,5 +25,14 @@ class Databaseclass {
     int aa = await db.rawInsert(insert);
 
     print("===$aa");
+  }
+
+  Future<List<Map>> LoginUser(
+      String email, String password, Database databseeee) async {
+    String loginuser =
+        "select * From RegisterUser where EMAIL = '$email' and  PASSWORD = '$password' ";
+    List<Map> list = await databseeee.rawQuery(loginuser);
+    return list;
+    print("==$list");
   }
 }
