@@ -1,11 +1,14 @@
+import 'package:apicalling/Homepage.dart';
 import 'package:apicalling/OfflineDatabse/Databaseclass.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'Homepage.dart';
 import 'RegisterUser.dart';
 
 class Loginpagee extends StatefulWidget {
-  const Loginpagee({Key? key}) : super(key: key);
+  static SharedPreferences? preferences;
 
   @override
   State<Loginpagee> createState() => _LoginpageeState();
@@ -16,6 +19,8 @@ class _LoginpageeState extends State<Loginpagee> {
   TextEditingController pass = TextEditingController();
   Database? databse;
 
+  bool Islogin = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -23,7 +28,24 @@ class _LoginpageeState extends State<Loginpagee> {
     Fordatabse();
   }
 
-  void Fordatabse() {
+  Future<void> Fordatabse() async {
+// Obtain shared preferences.
+    Loginpagee.preferences = await SharedPreferences.getInstance();
+
+    setState(() {
+      Islogin = Loginpagee.preferences!.getBool("loginstatus") ?? false;
+    });
+
+
+    print("==$Islogin");
+    if (Islogin) {
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) {
+          return HHH();
+        },
+      ));
+    } else {}
+
     Databaseclass().GetDatabase().then((value) {
       setState(() {
         databse = value;
@@ -54,6 +76,15 @@ class _LoginpageeState extends State<Loginpagee> {
                     .LoginUser(email.text, pass.text, databse!)
                     .then((value) {
                   if (value.length == 1) {
+                    Loginpagee.preferences!.setBool("loginstatus", true);
+
+                    String name = value[0]['NAME'];
+                    String number = value[0]['NUMBER'];
+                    String pass = value[0]['PASSWORD'];
+                    int id = value[0]['ID'];
+
+                    print("====$name==$number=====$pass");
+
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("Login SuccessFully")));
                   } else {

@@ -1,4 +1,3 @@
-import 'package:apicalling/Loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -48,19 +47,19 @@ class _RegisterUserState extends State<RegisterUser> {
         Container(
             margin: EdgeInsets.all(10),
             child: TextField(
-              decoration: InputDecoration(hintText: "Enetr Your Name"),
+              decoration: InputDecoration(hintText: "Enetr Your number"),
               controller: number,
             )),
         Container(
             margin: EdgeInsets.all(10),
             child: TextField(
-              decoration: InputDecoration(hintText: "Enetr Your Name"),
+              decoration: InputDecoration(hintText: "Enetr Your pass"),
               controller: password,
             )),
         Container(
             margin: EdgeInsets.all(10),
             child: TextField(
-              decoration: InputDecoration(hintText: "Enetr Your Name"),
+              decoration: InputDecoration(hintText: "Enetr Your email"),
               controller: email,
             )),
         ElevatedButton(
@@ -69,11 +68,21 @@ class _RegisterUserState extends State<RegisterUser> {
                   .InsertuserData(
                       name.text, number.text, password.text, email.text, db!)
                   .then((value) {
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) {
-                    return Loginpagee();
-                  },
-                ));
+                if (value.length == 0) {
+                  Databaseclass()
+                      .InsertValiduser(name.text, number.text, password.text,
+                          email.text, db!)
+                      .then((value) {
+                    Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) {
+                        return Loginpagee();
+                      },
+                    ));
+                  });
+                } else {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text("Aleredy Exist")));
+                }
               });
             },
             child: Text("Register Data"))
