@@ -19,9 +19,9 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    String name = SplashCreen.prefrs!.getString("NAME") ?? "";
+    // String name = SplashCreen.prefrs!.getString("NAME") ?? "";
 
-    print("===$name");
+    // print("===$name");
   }
 
   @override
@@ -32,52 +32,52 @@ class _HomepageState extends State<Homepage> {
         title: Text("Homepage"),
       ),
       drawer: Drawer(
-        child: ListView(
-          children: [
-            UserAccountsDrawerHeader(
-                otherAccountsPictures: [
-                  IconButton(onPressed: () {}, icon: Icon(Icons.account_circle))
-                ],
-                currentAccountPicture: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://pragneshzone.000webhostapp.com/Ecommer/${SplashCreen.prefrs!.getString("Image") ?? ""}")),
-                accountName:
-                    Text("${SplashCreen.prefrs!.getString("NAME") ?? ""}"),
-                accountEmail:
-                    Text("${SplashCreen.prefrs!.getString("Email") ?? ""}")),
-            ListTile(
-              onTap: () {
-                Navigator.pop(context);
-                setState(() {
-                  cnt = 0;
-                });
-              },
-              title: Text(
-                "View PRoduct",
-              ),
-              leading: Icon(Icons.shopping_cart),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.pop(context);
-                setState(() {
-                  cnt = 1;
-                });
-              },
-              title: Text(
-                "Add PRoduct",
-              ),
-              leading: Icon(Icons.shopping_cart),
-            ),
-            ListTile(
-              onTap: () {},
-              title: Text(
-                "Log Out",
-              ),
-              leading: Icon(Icons.logout),
-            )
-          ],
-        ),
+        // child: ListView(
+        //   children: [
+        //     UserAccountsDrawerHeader(
+        //         otherAccountsPictures: [
+        //           IconButton(onPressed: () {}, icon: Icon(Icons.account_circle))
+        //         ],
+        //         currentAccountPicture: CircleAvatar(
+        //             backgroundImage: NetworkImage(
+        //                 "https://pragneshzone.000webhostapp.com/Ecommer/${SplashCreen.prefrs!.getString("Image") ?? ""}")),
+        //         accountName:
+        //             Text("${SplashCreen.prefrs!.getString("NAME") ?? ""}"),
+        //         accountEmail:
+        //             Text("${SplashCreen.prefrs!.getString("Email") ?? ""}")),
+        //     ListTile(
+        //       onTap: () {
+        //         Navigator.pop(context);
+        //         setState(() {
+        //           cnt = 0;
+        //         });
+        //       },
+        //       title: Text(
+        //         "View PRoduct",
+        //       ),
+        //       leading: Icon(Icons.shopping_cart),
+        //     ),
+        //     ListTile(
+        //       onTap: () {
+        //         Navigator.pop(context);
+        //         setState(() {
+        //           cnt = 1;
+        //         });
+        //       },
+        //       title: Text(
+        //         "Add PRoduct",
+        //       ),
+        //       leading: Icon(Icons.shopping_cart),
+        //     ),
+        //     ListTile(
+        //       onTap: () {},
+        //       title: Text(
+        //         "Log Out",
+        //       ),
+        //       leading: Icon(Icons.logout),
+        //     )
+        //   ],
+        // ),
       ),
     );
   }

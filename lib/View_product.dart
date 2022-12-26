@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'SplashCreen.dart';
+import 'UpdateItem.dart';
 
 class View_product extends StatefulWidget {
   const View_product({Key? key}) : super(key: key);
@@ -14,7 +15,8 @@ class View_product extends StatefulWidget {
 }
 
 class _View_productState extends State<View_product> {
-  Viewwwproducttt? mm;
+  VIEWPRODUCT? mm;
+
 
   bool statsu = false;
 
@@ -34,10 +36,15 @@ class _View_productState extends State<View_product> {
         itemBuilder: (context, index) {
           return ListTile(
 
-            title: Text("${mm!.productdata![index].pname}"),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return UpdateItem(mm!.productdata![index]);
+              },));
+            },
+            title: Text("${mm!.productdata![index].productname}"),
             leading: CircleAvatar(
               backgroundImage: NetworkImage(
-                  "https://pragneshzone.000webhostapp.com/Ecommer/${mm!.productdata![index].productimagepath}"),
+                  "https://dishazone.000webhostapp.com/MyEcom/${mm!.productdata![index].proimage}"),
             ),
           );
         },
@@ -47,11 +54,11 @@ class _View_productState extends State<View_product> {
 
   Future<void> ForViewProducty() async {
     Map productmap = {
-      "userid": SplashCreen.prefrs!.getString("id") ?? "",
+      "userid": "38",
     };
 
     var url = Uri.parse(
-        'https://pragneshzone.000webhostapp.com/Ecommer/Viewproduct.php');
+        'https://dishazone.000webhostapp.com/MyEcom/ViewProducts.php');
     var response = await http.post(url, body: productmap);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -59,21 +66,21 @@ class _View_productState extends State<View_product> {
     var mmm = jsonDecode(response.body);
 
     setState(() {
-      mm = Viewwwproducttt.fromJson(mmm);
+      mm = VIEWPRODUCT.fromJson(mmm);
       statsu = true;
 
     });
   }
 }
 
-class Viewwwproducttt {
+class VIEWPRODUCT {
   int? connection;
   int? result;
   List<Productdata>? productdata;
 
-  Viewwwproducttt({this.connection, this.result, this.productdata});
+  VIEWPRODUCT({this.connection, this.result, this.productdata});
 
-  Viewwwproducttt.fromJson(Map<String, dynamic> json) {
+  VIEWPRODUCT.fromJson(Map<String, dynamic> json) {
     connection = json['connection'];
     result = json['result'];
     if (json['productdata'] != null) {
@@ -96,38 +103,42 @@ class Viewwwproducttt {
 }
 
 class Productdata {
-  String? productid;
-  String? pname;
-  String? pprize;
-  String? pdes;
+  String? id;
+  String? productname;
+  String? saleprice;
+  String? productprice;
+  String? desctription;
+  String? proimage;
   String? userid;
-  String? productimagepath;
 
   Productdata(
-      {this.productid,
-      this.pname,
-      this.pprize,
-      this.pdes,
-      this.userid,
-      this.productimagepath});
+      {this.id,
+        this.productname,
+        this.saleprice,
+        this.productprice,
+        this.desctription,
+        this.proimage,
+        this.userid});
 
   Productdata.fromJson(Map<String, dynamic> json) {
-    productid = json['productid'];
-    pname = json['pname'];
-    pprize = json['pprize'];
-    pdes = json['pdes'];
+    id = json['id'];
+    productname = json['Productname'];
+    saleprice = json['saleprice'];
+    productprice = json['Productprice'];
+    desctription = json['desctription'];
+    proimage = json['proimage'];
     userid = json['userid'];
-    productimagepath = json['productimagepath'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['productid'] = this.productid;
-    data['pname'] = this.pname;
-    data['pprize'] = this.pprize;
-    data['pdes'] = this.pdes;
+    data['id'] = this.id;
+    data['Productname'] = this.productname;
+    data['saleprice'] = this.saleprice;
+    data['Productprice'] = this.productprice;
+    data['desctription'] = this.desctription;
+    data['proimage'] = this.proimage;
     data['userid'] = this.userid;
-    data['productimagepath'] = this.productimagepath;
     return data;
   }
 }
