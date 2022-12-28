@@ -78,12 +78,15 @@ class _LoginpageeState extends State<Loginpagee> {
                   if (value.length == 1) {
                     Loginpagee.preferences!.setBool("loginstatus", true);
 
+
                     String name = value[0]['NAME'];
                     String number = value[0]['NUMBER'];
                     String pass = value[0]['PASSWORD'];
                     int id = value[0]['ID'];
+                    Loginpagee.preferences!.setInt("loginid", id);
+                    print("##==$name==$id==$number=====$pass");
 
-                    print("====$name==$number=====$pass");
+
 
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("Login SuccessFully")));

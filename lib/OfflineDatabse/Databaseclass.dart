@@ -17,6 +17,18 @@ class Databaseclass {
     });
     return database;
   }
+  Future<Database> Getcontactbook () async {
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'demo1.db');
+// open the database
+    Database database = await openDatabase(path, version: 1,
+        onCreate: (Database db, int version) async {
+      // When creating the db, create the table
+      await db.execute(
+          'create table contactbook (ID integer primary key Autoincrement , NAME text,NUMBER text ,USERID text)');
+    });
+    return database;
+  }
 
   Future<List<Map>> InsertuserData(String name, String number, String pass,
       String email, Database db) async {
@@ -47,5 +59,11 @@ class Databaseclass {
         "insert into RegisterUser (NAME,NUMBER,EMAIL,PASSWORD)  values('$text','$text2','$text3','$text4')";
     int aa = await database.rawInsert(insert);
 
+  }
+
+  Future<void> insertcontact(String text, String text2, String s, Database db) async {
+    String insertcontact = "insert into contactbook (NAME,NUMBER,USERID) values ('$text','$text2','$s')";
+    int res = await db.rawInsert(insertcontact);
+    print("====$res");
   }
 }
