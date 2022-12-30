@@ -44,7 +44,10 @@ class _LoginpageeState extends State<Loginpagee> {
           return HHH();
         },
       ));
-    } else {}
+    } else {
+
+
+    }
 
     Databaseclass().GetDatabase().then((value) {
       setState(() {
@@ -90,6 +93,11 @@ class _LoginpageeState extends State<Loginpagee> {
 
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("Login SuccessFully")));
+
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                      return  HHH();
+                    },));
+
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("User Not Fount")));
