@@ -3,6 +3,7 @@ import 'package:apicalling/OfflineDatabse/UpdateConatc.dart';
 import 'package:apicalling/OfflineDatabse/addcontact.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
+
 import 'Loginpagee.dart';
 
 class HHH extends StatefulWidget {
@@ -31,6 +32,7 @@ class _HHHState extends State<HHH> {
           .then((sdfszdfs) {
         setState(() {
           userconatc = sdfszdfs;
+          searchlist = sdfszdfs;
         });
       });
     });
@@ -38,30 +40,95 @@ class _HHHState extends State<HHH> {
 
   Database? ddddb;
   List<Map> userconatc = [];
+  List<Map> searchlist = [];
+
+  bool Issearch = false;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Loginpagee.preferences!.setBool("loginstatus", false);
+        appBar: Issearch
+            ? AppBar(
+          backgroundColor: Colors.white,
+                title: TextField(
+                  onChanged: (value) {
+                    print("===$value");
 
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return Loginpagee();
-                    },
-                  ));
-                },
-                icon: Icon(Icons.logout))
-          ],
-        ),
+                    setState(() {
+                      if(value.isNotEmpty)
+                        {
+                          searchlist = [];
+                          for(int u = 0 ; u < userconatc.length ; u++)
+                            {
+                              String namee = userconatc[u]['NAME'];
+                              String number = userconatc[u]['NUMBER'];
+                              print("===$namee");
+                              if(namee.toLowerCase().contains(value.toLowerCase()) || number.toString().toUpperCase().contains(value.toUpperCase()) )
+                                {
+
+                                  print("=S=$namee");
+
+                                  searchlist.add(userconatc[u]);
+                                }
+                              else {
+
+
+                              }
+
+                            }
+                          //
+                        }
+                      else {
+
+
+                        searchlist = userconatc;
+
+                      }
+                    });
+
+
+                  },
+                  autofocus: true,
+                  decoration: InputDecoration(suffixIcon: IconButton(onPressed: () {
+                    setState(() {
+                      Issearch = false;
+                      searchlist = userconatc;
+                    });
+
+                  }, icon: Icon(Icons.close)),border: OutlineInputBorder()),
+
+                ),
+              )
+            : AppBar(
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          Issearch = true;
+                        });
+                      },
+                      icon: Icon(Icons.search)),
+                  IconButton(
+                      onPressed: () {
+                        Loginpagee.preferences!.setBool("loginstatus", false);
+
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return Loginpagee();
+                          },
+                        ));
+                      },
+                      icon: Icon(Icons.logout))
+                ],
+              ),
         backgroundColor: Colors.yellow,
         body: ListView.builder(
-          itemCount: userconatc.length,
+          itemCount: Issearch?searchlist.length : userconatc.length,
           itemBuilder: (context, index) {
+
+            Map map = Issearch ? searchlist[index] : userconatc[index];
+
             return Card(
               margin: EdgeInsets.all(15),
               elevation: 20,
@@ -93,8 +160,8 @@ class _HHHState extends State<HHH> {
                     ];
                   },
                 ),
-                subtitle: Text("${userconatc[index]['NUMBER']}"),
-                title: Text("${userconatc[index]['NAME']}"),
+                subtitle: Text("${map['NUMBER']}"),
+                title: Text("${map['NAME']}"),
               ),
             );
           },

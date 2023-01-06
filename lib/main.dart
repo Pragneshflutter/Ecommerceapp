@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'Homepage.dart';
 import 'OfflineDatabse/Loginpagee.dart';
+import 'OfflineDatabse/Splash_screen.dart';
 import 'SplashCreen.dart';
 
 abstract class Myclass {
@@ -51,7 +52,7 @@ class Mytclas2 extends Myclass {
 
 void main() {
   runApp(MaterialApp(
-    home: Loginpagee(),
+    home: MysplashScreen(),
   ));
 }
 
