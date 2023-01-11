@@ -2,8 +2,8 @@ import 'package:apicalling/OfflineDatabse/Databaseclass.dart';
 import 'package:apicalling/OfflineDatabse/UpdateConatc.dart';
 import 'package:apicalling/OfflineDatabse/addcontact.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'Loginpagee.dart';
 
 class HHH extends StatefulWidget {
@@ -50,55 +50,40 @@ class _HHHState extends State<HHH> {
       child: Scaffold(
         appBar: Issearch
             ? AppBar(
-          backgroundColor: Colors.white,
                 title: TextField(
                   onChanged: (value) {
-                    print("===$value");
-
                     setState(() {
-                      if(value.isNotEmpty)
-                        {
-                          searchlist = [];
-                          for(int u = 0 ; u < userconatc.length ; u++)
-                            {
-                              String namee = userconatc[u]['NAME'];
-                              String number = userconatc[u]['NUMBER'];
-                              print("===$namee");
-                              if(namee.toLowerCase().contains(value.toLowerCase()) || number.toString().toUpperCase().contains(value.toUpperCase()) )
-                                {
+                      if (value.isNotEmpty) {
+                        searchlist = [];
 
-                                  print("=S=$namee");
-
-                                  searchlist.add(userconatc[u]);
-                                }
-                              else {
-
-
-                              }
-
-                            }
-                          //
+                        for (int i = 0; i < userconatc.length; i++) {
+                          if (userconatc[i]["NAME"]
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(value.toLowerCase()) ||
+                              userconatc[i]["NUMBER"]
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(value.toLowerCase())) {
+                            searchlist.add(userconatc[i]);
+                          }
                         }
-                      else {
-
-
+                      } else {
                         searchlist = userconatc;
-
                       }
                     });
-
-
                   },
-                  autofocus: true,
-                  decoration: InputDecoration(suffixIcon: IconButton(onPressed: () {
-                    setState(() {
-                      Issearch = false;
-                      searchlist = userconatc;
-                    });
-
-                  }, icon: Icon(Icons.close)),border: OutlineInputBorder()),
-
                 ),
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          Issearch = false;
+                          searchlist = userconatc;
+                        });
+                      },
+                      icon: Icon(Icons.close))
+                ],
               )
             : AppBar(
                 actions: [
@@ -123,48 +108,61 @@ class _HHHState extends State<HHH> {
                 ],
               ),
         backgroundColor: Colors.yellow,
-        body: ListView.builder(
-          itemCount: Issearch?searchlist.length : userconatc.length,
-          itemBuilder: (context, index) {
-
-            Map map = Issearch ? searchlist[index] : userconatc[index];
-
-            return Card(
-              margin: EdgeInsets.all(15),
-              elevation: 20,
-              child: ListTile(
-                trailing: PopupMenuButton(
-                  onSelected: (value) {
-                    if (value == 2) {
-                      Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) {
-                          return UpdateConatc(userconatc[index]);
-                        },
-                      ));
-                    }
-                  },
-                  itemBuilder: (context) {
-                    return [
-                      PopupMenuItem(value: 2, child: Text("Update")),
-                      PopupMenuItem(
-                          value: 1,
-                          onTap: () {
-                            int idd = userconatc[index]['ID'];
-                            Databaseclass()
-                                .DeleteConartc(ddddb!, idd)
-                                .then((value) {
-                              ForViewDatabse();
-                            });
+        body: AnimationLimiter(
+          key: ValueKey("${userconatc.length}"),
+          child: ListView.builder(
+            itemCount: Issearch ? searchlist.length : userconatc.length,
+            itemBuilder: (context, index) {
+              Map map = Issearch ? searchlist[index] : userconatc[index];
+              return AnimationConfiguration.staggeredList(
+                position: index,
+                child: SlideAnimation(
+                  delay: Duration(seconds: 1),
+                  duration: Duration(seconds: 1),
+                  child: FlipAnimation(
+                    delay: Duration(seconds: 3),
+                    duration: Duration(seconds: 3),
+                    child: Card(
+                      margin: EdgeInsets.all(15),
+                      elevation: 20,
+                      child: ListTile(
+                        trailing: PopupMenuButton(
+                          onSelected: (value) {
+                            if (value == 2) {
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(
+                                builder: (context) {
+                                  return UpdateConatc(userconatc[index]);
+                                },
+                              ));
+                            }
                           },
-                          child: Text("Delete"))
-                    ];
-                  },
+                          itemBuilder: (context) {
+                            return [
+                              PopupMenuItem(value: 2, child: Text("Update")),
+                              PopupMenuItem(
+                                  value: 1,
+                                  onTap: () {
+                                    int idd = userconatc[index]['ID'];
+                                    Databaseclass()
+                                        .DeleteConartc(ddddb!, idd)
+                                        .then((value) {
+                                      ForViewDatabse();
+                                    });
+                                  },
+                                  child: Text("Delete"))
+                            ];
+                          },
+                        ),
+                        subtitle: Text("${map["NUMBER"]}"),
+                        title: Text("${map["NAME"]}"),
+                      ),
+                    ),
+                  ),
                 ),
-                subtitle: Text("${map['NUMBER']}"),
-                title: Text("${map['NAME']}"),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {

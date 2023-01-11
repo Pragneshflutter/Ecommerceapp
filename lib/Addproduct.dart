@@ -31,40 +31,43 @@ class _AddproductState extends State<Addproduct> {
           InkWell(
               onTap: () {
                 showDialog(
+                builder: (context) {
+                  return AlertDialog();
+                },
                   context: context,
-                  builder: (context) {
-                    return Column(
-                      children: [
-                        ElevatedButton.icon(
-                            onPressed: () async {
-                              Navigator.pop(context);
-                              final ImagePicker _picker = ImagePicker();
-                              // Capture a photo
-                              final XFile? photo = await _picker.pickImage(
-                                  source: ImageSource.camera);
-                              setState(() {
-                                img = photo!.path;
-                              });
-                            },
-                            icon: Icon(Icons.camera),
-                            label: Text("Camera")),
-                        ElevatedButton.icon(
-                            onPressed: () async {
-                              Navigator.pop(context);
-                              final ImagePicker _picker = ImagePicker();
-                              // Pick an image
-                              final XFile? image = await _picker.pickImage(
-                                  source: ImageSource.gallery);
-
-                              setState(() {
-                                img = image!.path;
-                              });
-                            },
-                            icon: Icon(Icons.photo),
-                            label: Text("Gallary"))
-                      ],
-                    );
-                  },
+                  // builder: (context) {
+                  //   return Column(
+                  //     children: [
+                  //       ElevatedButton.icon(
+                  //           onPressed: () async {
+                  //             Navigator.pop(context);
+                  //             final ImagePicker _picker = ImagePicker();
+                  //             // Capture a photo
+                  //             final XFile? photo = await _picker.pickImage(
+                  //                 source: ImageSource.camera);
+                  //             setState(() {
+                  //               img = photo!.path;
+                  //             });
+                  //           },
+                  //           icon: Icon(Icons.camera),
+                  //           label: Text("Camera")),
+                  //       ElevatedButton.icon(
+                  //           onPressed: () async {
+                  //             Navigator.pop(context);
+                  //             final ImagePicker _picker = ImagePicker();
+                  //             // Pick an image
+                  //             final XFile? image = await _picker.pickImage(
+                  //                 source: ImageSource.gallery);
+                  //
+                  //             setState(() {
+                  //               img = image!.path;
+                  //             });
+                  //           },
+                  //           icon: Icon(Icons.photo),
+                  //           label: Text("Gallary"))
+                  //     ],
+                  //   );
+                  // },
                 );
               },
               child: CircleAvatar(

@@ -43,6 +43,9 @@ dependencies:
   image_picker:
   shared_preferences:
   sqflite:
+  flutter_staggered_animations:
+
+  dependencies:
 
 
 

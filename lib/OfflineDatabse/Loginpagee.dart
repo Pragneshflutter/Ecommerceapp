@@ -19,7 +19,7 @@ class _LoginpageeState extends State<Loginpagee> {
   TextEditingController pass = TextEditingController();
   Database? databse;
 
-  bool Islogin = false;
+  // bool Islogin = false;
 
   @override
   void initState() {
@@ -32,10 +32,10 @@ class _LoginpageeState extends State<Loginpagee> {
 // Obtain shared preferences.
     Loginpagee.preferences = await SharedPreferences.getInstance();
 
-    setState(() {
-      Islogin = Loginpagee.preferences!.getBool("loginstatus") ?? false;
-    });
+    bool   Islogin = Loginpagee.preferences!.getBool("loginstatus") ?? false;
 
+
+    setState(() {    });
 
     print("==$Islogin");
     if (Islogin) {

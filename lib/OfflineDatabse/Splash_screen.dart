@@ -14,7 +14,7 @@ class _MysplashScreenState extends State<MysplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(seconds: 5)).then((value) {
+    Future.delayed(Duration(seconds: 1)).then((value) {
       Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) {
           return Loginpagee();
